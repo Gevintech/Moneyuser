@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTN CASH X - Earn Money Online</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script type="module" src="app.js" defer></script>
+</head>
+<body>
+    <!-- Login/Signup Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="loginForm" class="auth-form active">
+                <h2><i class="fas fa-sign-in-alt"></i> Login to MTN CASH X</h2>
+                <form id="loginFormElement">
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="loginEmail" placeholder="Email Address" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Login</button>
+                    <p class="switch-auth">Don't have an account? <a href="#" id="showSignup">Sign Up</a></p>
+                </form>
+            </div>
+            <div id="signupForm" class="auth-form">
+                <h2><i class="fas fa-user-plus"></i> Create Account</h2>
+                <form id="signupFormElement">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="signupName" placeholder="Full Name" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" id="signupPhone" placeholder="Phone Number" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="signupEmail" placeholder="Email Address" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="signupPassword" placeholder="Password" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-code"></i>
+                        <input type="text" id="referralCode" placeholder="Referral Code (Optional)">
+                    </div>
+                    <button type="submit" class="btn-primary">Create Account</button>
+                    <p class="switch-auth">Already have an account? <a href="#" id="showLogin">Login</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app" class="hidden">
+        <!-- Drawer Menu -->
+        <div id="drawerMenu" class="drawer">
+            <div class="drawer-header">
+                <div class="logo">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h2>MTN CASH X</h2>
+                </div>
+                <button id="closeDrawer" class="close-drawer">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="drawer-content">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar"></div>
+                    <div>
+                        <h3 id="drawerUserName"></h3>
+                        <p id="drawerUserEmail"></p>
+                    </div>
+                </div>
+                <nav class="drawer-nav">
+                    <a href="#" class="nav-item" data-tab="dashboard">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                    <a href="#" class="nav-item" data-tab="tasks">
+                        <i class="fas fa-tasks"></i> Tasks
+                    </a>
+                    <a href="#" class="nav-item" data-tab="referrals">
+                        <i class="fas fa-share-alt"></i> Referrals
+                    </a>
+                    <a href="#" class="nav-item" data-tab="withdraw">
+                        <i class="fas fa-money-bill-wave"></i> Withdraw
+                    </a>
+                    <a href="#" class="nav-item" data-tab="history">
+                        <i class="fas fa-history"></i> History
+                    </a>
+                    <a href="#" class="nav-item" id="logoutNav">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <button id="menuToggle" class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="logo">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h1>MTN CASH X</h1>
+                    </div>
+                    <div class="user-info">
+                        <span id="userName"></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Wallet Balance -->
+        <section class="wallet-section">
+            <div class="container">
+                <div class="wallet-cards">
+                    <div class="wallet-card main-balance">
+                        <div class="balance-info">
+                            <h3>Welcome Bonus</h3>
+                            <div class="amount" id="mainBalance">0 UGX</div>
+                            <p class="balance-desc">Initial bonus (non-withdrawable)</p>
+                        </div>
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="wallet-card video-balance">
+                        <div class="balance-info">
+                            <h3>Video Earnings</h3>
+                            <div class="amount" id="videoBalance">0 UGX</div>
+                            <p class="balance-desc">Earnings from video tasks (non-withdrawable)</p>
+                        </div>
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="wallet-card referral-balance">
+                        <div class="balance-info">
+                            <h3>Referral Earnings</h3>
+                            <div class="amount" id="referralBalance">0 UGX</div>
+                            <p class="balance-desc">Withdrawable from 1,000 UGX</p>
+                        </div>
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="wallet-card premium-status">
+                        <div class="status-info">
+                            <h3>Premium Status</h3>
+                            <div class="status" id="premiumStatus">Free User</div>
+                            <button id="getPremiumBtn" class="btn-premium">
+                                <i class="fas fa-crown"></i> Get Premium (5,000 UGX)
+                            </button>
+                        </div>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Content -->
+        <main class="dashboard-content">
+            <div class="container">
+                <!-- Dashboard Tab -->
+                <section id="dashboard" class="tab-content active">
+                    <h2>Welcome to MTN CASH X</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-video"></i>
+                            <h3>Videos Watched</h3>
+                            <div class="stat-number" id="videosWatched">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-users"></i>
+                            <h3>Referrals</h3>
+                            <div class="stat-number" id="totalReferrals">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-trophy"></i>
+                            <h3>Total Earnings</h3>
+                            <div class="stat-number" id="totalEarnings">3,000 UGX</div>
+                        </div>
+                    </div>
+                    <div class="quick-actions">
+                        <h3>Quick Actions</h3>
+                        <div class="action-buttons">
+                            <button class="btn-action" id="shareAppBtn">
+                                <i class="fas fa-share"></i> Share App
+                            </button>
+                            <button class="btn-action" id="inviteFriendsBtn">
+                                <i class="fas fa-user-friends"></i> Invite Friends
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tasks Tab -->
+                <section id="tasks" class="tab-content">
+                    <h2>Earn Money Tasks</h2>
+                    <div class="tasks-grid">
+                        <div class="task-category">
+                            <h3><i class="fab fa-youtube"></i> YouTube Videos</h3>
+                            <div class="task-info premium-locked">
+                                <i class="fas fa-lock"></i>
+                                <p>Premium required to watch YouTube videos (500 UGX per video)</p>
+                                <button class="btn-premium" id="unlockYoutube">Unlock Premium</button>
+                            </div>
+                            <div id="youtubeVideos" class="videos-list hidden">
+                                <div class="loading">Loading videos...</div>
+                            </div>
+                        </div>
+                        <div class="task-category">
+                            <h3><i class="fab fa-tiktok"></i> TikTok Videos</h3>
+                            <div class="task-info premium-locked">
+                                <i class="fas fa-lock"></i>
+                                <p>Premium required to watch TikTok videos (500 UGX per video)</p>
+                                <button class="btn-premium" id="unlockTiktok">Unlock Premium</button>
+                            </div>
+                            <div id="tiktokVideos" class="videos-list hidden">
+                                <div class="loading">Loading videos...</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Referrals Tab -->
+                <section id="referrals" class="tab-content">
+                    <h2>Referral Program</h2>
+                    <div class="referral-info">
+                        <div class="your-code">
+                            <h3>Your Referral Code</h3>
+                            <div class="code-display" id="userReferralCode"></div>
+                            <button class="btn-copy" id="copyReferralCode">
+                                <i class="fas fa-copy"></i> Copy Code
+                            </button>
+                        </div>
+                        <div class="referral-earnings">
+                            <h3>Earn 2,500 UGX per successful referral!</h3>
+                            <p>Share your code with friends. When they buy premium, you earn instantly.</p>
+                            <div class="share-links">
+                                <button class="share-btn whatsapp">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </button>
+                                <button class="share-btn telegram">
+                                    <i class="fab fa-telegram"></i> Telegram
+                                </button>
+                                <button class="share-btn facebook">
+                                    <i class="fab fa-facebook"></i> Facebook
+                                </button>
+                            </div>
+                        </div>
+                        <div class="referred-users">
+                            <h3>Your Referrals</h3>
+                            <div id="referredUsersList">
+                                <div class="loading">Loading your referrals...</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Withdraw Tab -->
+                <section id="withdraw" class="tab-content">
+                    <h2>Withdraw Referral Earnings</h2>
+                    <div class="withdraw-info">
+                        <div class="withdraw-conditions">
+                            <div class="condition-item">
+                                <i class="fas fa-check-circle"></i>
+                                <h4>Minimum Withdrawal</h4>
+                                <p>1,000 UGX from Referral Balance</p>
+                            </div>
+                            <div class="condition-item">
+                                <i class="fas fa-percentage"></i>
+                                <h4>Service Fee</h4>
+                                <p>10% processing fee</p>
+                            </div>
+                            <div class="condition-item">
+                                <i class="fas fa-clock"></i>
+                                <h4>Processing Time</h4>
+                                <p>24-48 hours</p>
+                            </div>
+                        </div>
+                        <div class="withdraw-form">
+                            <h3>Request Withdrawal</h3>
+                            <form id="withdrawForm">
+                                <div class="input-group">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    <input type="number" id="withdrawAmount" placeholder="Amount (UGX)" min="1000" required>
+                                </div>
+                                <div class="input-group">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    <input type="tel" id="withdrawPhone" placeholder="MTN Mobile Number" required>
+                                </div>
+                                <div class="fee-display">
+                                    <p>Service Fee: <span id="serviceFee">0</span> UGX</p>
+                                    <p>You'll receive: <span id="netAmount">0</span> UGX</p>
+                                </div>
+                                <button type="submit" class="btn-withdraw" id="withdrawBtn" disabled>
+                                    <i class="fas fa-paper-plane"></i> Request Withdrawal
+                                </button>
+                            </form>
+                        </div>
+                        <div class="pending-withdrawals">
+                            <h3>Pending Withdrawals</h3>
+                            <div id="pendingWithdrawalsList">
+                                <div class="no-data">No pending withdrawals</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- History Tab -->
+                <section id="history" class="tab-content">
+                    <h2>Transaction History</h2>
+                    <div class="history-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="referral">Referrals</button>
+                        <button class="filter-btn" data-filter="video">Videos</button>
+                        <button class="filter-btn" data-filter="bonus">Bonus</button>
+                        <button class="filter-btn" data-filter="withdraw">Withdrawals</button>
+                    </div>
+                    <div id="historyList" class="history-list">
+                        <div class="loading">Loading history...</div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay hidden">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading...</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
